@@ -57,10 +57,11 @@ class RTCVideoView extends StatelessWidget {
                 alignment: FractionalOffset.center,
                 child: videoRenderer.textureId != null &&
                         videoRenderer.srcObject != null
-                    ? Texture(
-                        textureId: videoRenderer.textureId!,
-                        filterQuality: filterQuality,
-                      )
+                    ? Text('asdasd')
+                    // ? Texture(
+                    //     textureId: videoRenderer.textureId!,
+                    //     filterQuality: filterQuality,
+                    //   )
                     : Container(),
               ),
             ),

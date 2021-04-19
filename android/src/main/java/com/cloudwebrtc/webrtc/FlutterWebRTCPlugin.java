@@ -66,24 +66,24 @@ public class FlutterWebRTCPlugin implements FlutterPlugin, ActivityAware {
         boolean isCreated = false;
         int renderId = 0;
 
-//        while (isCreated == false) {
-//          String renderName = "hybrid-view-type" + renderId;
-//          renderId++;
-//
-//          isCreated = mFlutterPluginBinding
-//                  .getPlatformViewRegistry()
-//                  .registerViewFactory(renderName, new NativeViewFactory(events));
-//          renderNameToFlutter = renderName;
-//        }
-//
-//        if (isCreated) {
-//          events.success(
-//                  "type=" + TypeStreamData.CREATE + ',' +
-//                          "viewName=" + renderNameToFlutter
-//          );
-//
+        while (isCreated == false) {
+          String renderName = "hybrid-view-type" + renderId;
+          renderId++;
+
+          isCreated = mFlutterPluginBinding
+                  .getPlatformViewRegistry()
+                  .registerViewFactory(renderName, new NativeViewFactory(events));
+          renderNameToFlutter = renderName;
+        }
+
+        if (isCreated) {
+          events.success(
+                  "type=" + TypeStreamData.CREATE + ',' +
+                          "viewName=" + renderNameToFlutter
+          );
+
           Log.d("CREATE_EVENT", "CREATE GAMEPAD EVENT LISTENER");
-//        }
+        }
       }
 
       @Override
