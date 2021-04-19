@@ -10,6 +10,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import io.flutter.plugin.common.BinaryMessenger;
+import io.flutter.plugin.common.EventChannel;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.flutter.view.TextureRegistry;
@@ -25,6 +26,9 @@ public class FlutterWebRTCPlugin implements FlutterPlugin, ActivityAware {
   private RTCAudioManager rtcAudioManager;
   private MethodChannel channel;
   private MethodCallHandlerImpl methodCallHandler;
+  private FlutterPluginBinding mFlutterPluginBinding;
+
+  private EventChannel gamePadControllerChannel;
 
   public FlutterWebRTCPlugin() {
   }
@@ -49,8 +53,44 @@ public class FlutterWebRTCPlugin implements FlutterPlugin, ActivityAware {
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+    mFlutterPluginBinding = binding;
+
     startListening(binding.getApplicationContext(), binding.getBinaryMessenger(),
         binding.getTextureRegistry());
+
+    gamePadControllerChannel = new EventChannel(binding.getBinaryMessenger(), "gamepad_controller_listener");
+    gamePadControllerChannel.setStreamHandler(new EventChannel.StreamHandler() {
+      @Override
+      public void onListen(Object arguments, EventChannel.EventSink events) {
+        String renderNameToFlutter = "";
+        boolean isCreated = false;
+        int renderId = 0;
+
+//        while (isCreated == false) {
+//          String renderName = "hybrid-view-type" + renderId;
+//          renderId++;
+//
+//          isCreated = mFlutterPluginBinding
+//                  .getPlatformViewRegistry()
+//                  .registerViewFactory(renderName, new NativeViewFactory(events));
+//          renderNameToFlutter = renderName;
+//        }
+//
+//        if (isCreated) {
+//          events.success(
+//                  "type=" + TypeStreamData.CREATE + ',' +
+//                          "viewName=" + renderNameToFlutter
+//          );
+//
+          Log.d("CREATE_EVENT", "CREATE GAMEPAD EVENT LISTENER");
+//        }
+      }
+
+      @Override
+      public void onCancel(Object arguments) {
+        Log.e("CANCEL", "CANCEL GAMEPAD EVENT LISTENER");
+      }
+    });
   }
 
   @Override
